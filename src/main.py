@@ -15,11 +15,11 @@ class FreshdeskContact(TypedDict):
 class GitHub:
     domain = 'https://api.github.com'
 
-    def __init__(self, token):
+    def __init__(self, token: str):
         self.token = token
         self.headers = {'Authorization': f'token {self.token}'}
 
-    def get_user(self, username) -> GitHubUser:
+    def get_user(self, username: str) -> GitHubUser:
         url = f"{self.domain}/users/{username}"
         response = requests.get(url, headers=self.headers)
 
@@ -32,12 +32,12 @@ class GitHub:
         }
 
 class Freshdesk:
-    def __init__(self, token, subdomain, requests):
+    def __init__(self, token: str, subdomain: str, requests):
         self.domain = f'https://{subdomain}.freshdesk.com'
         self.auth = requests.auth.HTTPBasicAuth(token, "X")
         self.requests = requests
 
-    def create_contact(self, name, email):
+    def create_contact(self, name: str, email: str):
         url = f'{self.domain}/api/v2/contacts'
         data = {'name': name, 'email': email}
         response = requests.post(url, json=data, auth=self.auth)
@@ -47,7 +47,7 @@ class Freshdesk:
         
         return response.json()
 
-    def update_contact(self, id, name, email):
+    def update_contact(self, id: int, name: str, email: str):
         url = f'{self.domain}/api/v2/contacts/{id}'
         data = {'id': id, 'name': name, 'email': email}
         response = requests.put(url, json=data, auth=self.auth)
@@ -57,7 +57,7 @@ class Freshdesk:
         
         return response.json()
 
-    def get_contact(self, email) -> FreshdeskContact:
+    def get_contact(self, email: str) -> FreshdeskContact:
         url = f'{self.domain}/api/v2/contacts'
         params = {'email': email}
         response = self.requests.get(url, params=params, auth=self.auth)

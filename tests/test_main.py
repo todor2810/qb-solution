@@ -1,11 +1,7 @@
 import unittest
 from unittest.mock import patch, Mock
+import requests
 from src.main import GitHub, Freshdesk
-import requests
-
-import unittest
-from unittest.mock import patch, Mock
-import requests
 
 class TestGitHub(unittest.TestCase):
     def setUp(self):
